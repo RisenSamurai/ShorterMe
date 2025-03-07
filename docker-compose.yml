@@ -1,0 +1,30 @@
+services:
+  backend:
+    build: backend
+    ports:
+      - "8080:8080"
+    container_name: backend
+    networks:
+      - app-network
+
+  frontend:
+    build: frontend
+    ports:
+      - "3000:3000"
+    container_name: frontend-node
+    environment:
+      - BACKEND_URL=http://backend:8080  # Use Docker service name!
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    container_name: redis1
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
